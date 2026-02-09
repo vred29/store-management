@@ -1,5 +1,6 @@
 package com.example.store.store_management.product.service;
 
+import com.example.store.store_management.config.exception.ProductNotFoundException;
 import com.example.store.store_management.product.domain.Product;
 import com.example.store.store_management.product.domain.ProductRepository;
 import com.example.store.store_management.product.rest.dto.AddProductDto;
@@ -34,7 +35,7 @@ public class ProductService {
 
     public ProductDto getById(Long id) {
         Product product = productRepository.findByIdAndDeletedFalse(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ProductNotFoundException(id));
 
         return new ProductDto(
                 product.getId(),
@@ -71,7 +72,7 @@ public class ProductService {
 
     public void updateProductDetails(Long id, UpdateProductDetailsDto dto) {
         Product product = productRepository.findByIdAndDeletedFalse(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ProductNotFoundException(id));
 
         product.updateDetails(dto.name(), dto.description());
         productRepository.save(product);
@@ -79,7 +80,8 @@ public class ProductService {
 
     public Product updatePrice(Long productId, BigDecimal newPrice) {
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ProductNotFoundException(productId));
+
         product.changePrice(newPrice);
         return productRepository.save(product);
     }
