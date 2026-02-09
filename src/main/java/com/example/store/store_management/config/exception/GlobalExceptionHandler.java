@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @RestControllerAdvice
 @Slf4j
@@ -38,9 +39,10 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<GenericResponse> handleGeneric(Exception ex) {
-        return GenericResponse.error(
-                HttpStatus.INTERNAL_SERVER_ERROR,
-                "Unexpected error occurred"
-        );
+        if (ex instanceof NoResourceFoundException) {
+            return ResponseEntity.notFound().build();
+        }
+        log.error("Unexpected error", ex);
+        return GenericResponse.error("Unexpected error occurred");
     }
 }
