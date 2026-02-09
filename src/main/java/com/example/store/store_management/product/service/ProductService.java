@@ -7,6 +7,7 @@ import com.example.store.store_management.product.rest.dto.AddProductDto;
 import com.example.store.store_management.product.rest.dto.ProductDto;
 import com.example.store.store_management.product.rest.dto.UpdateProductDetailsDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,12 +16,9 @@ import java.math.BigDecimal;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ProductService {
     final ProductRepository productRepository;
-
-    public Product addProduct(Product product) {
-        return productRepository.save(product);
-    }
 
     public Page<ProductDto> getProducts(Pageable pageable) {
         Page<Product> products = productRepository.findAllByDeletedFalse(pageable);
@@ -67,6 +65,7 @@ public class ProductService {
         );
 
         Product saved = productRepository.save(product);
+        log.info("Product added");
         return saved.getId();
     }
 
@@ -75,6 +74,7 @@ public class ProductService {
                 .orElseThrow(() -> new ProductNotFoundException(id));
 
         product.updateDetails(dto.name(), dto.description());
+        log.info("Product details updated");
         productRepository.save(product);
     }
 
@@ -83,6 +83,7 @@ public class ProductService {
                 .orElseThrow(() -> new ProductNotFoundException(productId));
 
         product.changePrice(newPrice);
+        log.info("Product price updated");
         return productRepository.save(product);
     }
 
@@ -90,6 +91,7 @@ public class ProductService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
         product.updateStock(newQuantity);
+        log.info("Product stock updated");
         return productRepository.save(product);
     }
 
@@ -98,6 +100,7 @@ public class ProductService {
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
         product.softDelete();
+        log.info("Product deleted");
         productRepository.save(product);
     }
 }
