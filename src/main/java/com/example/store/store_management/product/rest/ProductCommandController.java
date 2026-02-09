@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -19,6 +20,7 @@ public class ProductCommandController {
     final ProductService productService;
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<GenericResponse> addProduct(@Valid @RequestBody AddProductDto dto) {
 
         Long productId = productService.addProduct(dto);
@@ -28,6 +30,7 @@ public class ProductCommandController {
 
 
     @PutMapping("/{id}/price")
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
     public ResponseEntity<GenericResponse> changePrice(
             @PathVariable Long id,
             @RequestParam @Positive BigDecimal newPrice) {
@@ -37,6 +40,7 @@ public class ProductCommandController {
     }
 
     @PutMapping("/{id}/stock")
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
     public ResponseEntity<GenericResponse> updateStock(
             @PathVariable Long id,
             @RequestParam @Positive Integer newQuantity) {
@@ -46,6 +50,7 @@ public class ProductCommandController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<GenericResponse> updateProductDetails(
             @PathVariable Long id,
             @Valid @RequestBody UpdateProductDetailsDto dto) {
@@ -55,6 +60,7 @@ public class ProductCommandController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<GenericResponse> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return GenericResponse.success("Product deleted", id);
