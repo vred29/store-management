@@ -43,8 +43,8 @@ public class GenericResponse {
         return ResponseEntity.ok(new GenericResponse(HttpStatus.OK.value(), message, SUCCESS));
     }
 
-    public static ResponseEntity<GenericResponse> success(String message, String id) {
-        return ResponseEntity.ok(new GenericResponse(HttpStatus.OK.value(), message, SUCCESS, id));
+    public static ResponseEntity<GenericResponse> success(String message, Long id) {
+        return ResponseEntity.ok(new GenericResponse(HttpStatus.OK.value(), message, SUCCESS, String.valueOf(id)));
     }
 
     public static ResponseEntity<GenericResponse> warning(String message) {

@@ -1,7 +1,13 @@
 package com.example.store.store_management.rest;
 
 import com.example.store.store_management.domain.Product;
+import com.example.store.store_management.domain.ProductService;
+import com.example.store.store_management.rest.dto.AddProductDto;
+import com.example.store.store_management.rest.dto.UpdateProductDetailsDto;
 import com.example.store.store_management.util.GenericResponse;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,23 +15,50 @@ import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/product")
+@RequiredArgsConstructor
 public class ProductCommandController {
-
+    final ProductService productService;
 
     @PostMapping
-    public ResponseEntity<GenericResponse> addProduct(@RequestBody Product product) {
-        return GenericResponse.success("Adaugat", "1");
+    public ResponseEntity<GenericResponse> addProduct(@Valid @RequestBody AddProductDto dto) {
+
+        Long productId = productService.addProduct(dto);
+
+        return GenericResponse.success("Product added successfully", productId);
     }
 
 
     @PutMapping("/{id}/price")
-    public ResponseEntity<GenericResponse> changePrice(@PathVariable String id, @RequestParam BigDecimal newPrice) {
-        return GenericResponse.success("Modificat pret", id);
+    public ResponseEntity<GenericResponse> changePrice(
+            @PathVariable Long id,
+            @RequestParam @Positive BigDecimal newPrice) {
+
+        productService.updatePrice(id, newPrice);
+        return GenericResponse.success("Price updated", id);
     }
 
     @PutMapping("/{id}/stock")
-    public ResponseEntity<GenericResponse> updateStock(@PathVariable String id, @RequestParam Integer newQuantity) {
-        return GenericResponse.success("Modificat stoc", id);
+    public ResponseEntity<GenericResponse> updateStock(
+            @PathVariable Long id,
+            @RequestParam @Positive Integer newQuantity) {
+
+        productService.updateStock(id, newQuantity);
+        return GenericResponse.success("Stock updated", id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<GenericResponse> updateProductDetails(
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateProductDetailsDto dto) {
+
+        productService.updateProductDetails(id, dto);
+        return GenericResponse.success("Product updated", id);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<GenericResponse> deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
+        return GenericResponse.success("Product deleted", id);
     }
 
 }
