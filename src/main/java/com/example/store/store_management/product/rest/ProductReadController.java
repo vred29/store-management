@@ -1,7 +1,7 @@
-package com.example.store.store_management.rest;
+package com.example.store.store_management.product.rest;
 
-import com.example.store.store_management.domain.ProductService;
-import com.example.store.store_management.rest.dto.ProductDto;
+import com.example.store.store_management.product.service.ProductService;
+import com.example.store.store_management.product.rest.dto.ProductDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,4 +1,4 @@
-package com.example.store.store_management.domain;
+package com.example.store.store_management.product.domain;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

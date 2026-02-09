@@ -1,9 +1,8 @@
-package com.example.store.store_management.rest;
+package com.example.store.store_management.product.rest;
 
-import com.example.store.store_management.domain.Product;
-import com.example.store.store_management.domain.ProductService;
-import com.example.store.store_management.rest.dto.AddProductDto;
-import com.example.store.store_management.rest.dto.UpdateProductDetailsDto;
+import com.example.store.store_management.product.service.ProductService;
+import com.example.store.store_management.product.rest.dto.AddProductDto;
+import com.example.store.store_management.product.rest.dto.UpdateProductDetailsDto;
 import com.example.store.store_management.util.GenericResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
