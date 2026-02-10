@@ -1,4 +1,4 @@
-package com.example.store.store_management.config.exception;
+package com.example.store.store_management.exception;
 
 import com.example.store.store_management.util.GenericResponse;
 import lombok.extern.slf4j.Slf4j;

@@ -1,6 +1,6 @@
 package com.example.store.store_management.product.service;
 
-import com.example.store.store_management.config.exception.ProductNotFoundException;
+import com.example.store.store_management.exception.ProductNotFoundException;
 import com.example.store.store_management.product.domain.Product;
 import com.example.store.store_management.product.domain.ProductRepository;
 import com.example.store.store_management.product.rest.dto.AddProductDto;

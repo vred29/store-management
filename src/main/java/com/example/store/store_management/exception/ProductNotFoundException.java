@@ -1,4 +1,4 @@
-package com.example.store.store_management.config.exception;
+package com.example.store.store_management.exception;
 
 public class ProductNotFoundException extends RuntimeException {
 
